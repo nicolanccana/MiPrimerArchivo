@@ -1,0 +1,16 @@
+{
+  "originName": "Origin",
+  "destinationName": "Destination",
+  "status": "REQUESTED",
+  "price": 100.0,
+  "originCoordinates": {
+    "latitude": 42.1234,
+    "longitude": -71.9876
+  },
+  "destinationCoordinates": {
+    "latitude": 42.1234,
+    "longitude": -71.9876
+  },
+  "passengerId": "id_del_pasajero",
+  "driverId": "id_del_conductor"
+}

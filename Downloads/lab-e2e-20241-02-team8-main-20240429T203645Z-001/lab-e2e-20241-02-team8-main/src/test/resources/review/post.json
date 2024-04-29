@@ -1,0 +1,6 @@
+{
+  "comment": "Great ride!",
+  "rating": 5,
+  "rideId": "ID_del_viaje_actual",
+  "targetId": "ID_del_destino"
+}

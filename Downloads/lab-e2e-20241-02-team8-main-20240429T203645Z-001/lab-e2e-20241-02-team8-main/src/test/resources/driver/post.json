@@ -1,0 +1,17 @@
+{
+  "category": "X",
+  "vehicle": {
+    "brand": "Toyota",
+    "model": "Corolla",
+    "licensePlate": "ABC123",
+    "fabricationYear": 2020,
+    "capacity": 5
+  },
+  "role": "DRIVER",
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "johndoe@example.com",
+  "phoneNumber": "1234567890",
+  "password": "secretpassword",
+  "createdAt": "2024-04-13T12:00:00Z"
+}

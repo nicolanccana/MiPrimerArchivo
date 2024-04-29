@@ -1,0 +1,138 @@
+name: Autograding Tests
+'on':
+  - push
+  - workflow_dispatch
+  - repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - name: DriverControllerIntegrationTest
+        id: drivercontrollerintegrationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: DriverControllerIntegrationTest
+          setup-command: mvn compile
+          command: mvn clean test -PDriverControllerIntegrationTest
+          timeout: 10
+          max-score: 3
+      - name: PassengerControllerIntegrationTest
+        id: passengercontrollerintegrationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: PassengerControllerIntegrationTest
+          setup-command: mvn compile
+          command: mvn clean test -PPassengerControllerIntegrationTest
+          timeout: 10
+          max-score: 3
+      - name: ReviewControllerIntegrationTest
+        id: reviewcontrollerintegrationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: ReviewControllerIntegrationTest
+          setup-command: mvn compile
+          command: mvn clean test -PReviewControllerIntegrationTest
+          timeout: 10
+          max-score: 3
+      - name: RideControllerIntegrationTest
+        id: ridecontrollerintegrationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: RideControllerIntegrationTest
+          setup-command: mvn compile
+          command: mvn clean test -PRideControllerIntegrationTest
+          timeout: 10
+          max-score: 4
+
+      - name: DriverDtoValidationTest
+        id: driverdtovalidationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: DriverDtoValidationTest
+          setup-command: mvn compile
+          command: mvn clean test -PDriverDtoValidationTest
+          timeout: 10
+          max-score: 1
+      - name: NewDriverRequestDtoValidationTest
+        id: newdriverrequestdtovalidationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: NewDriverRequestDtoValidationTest
+          setup-command: mvn compile
+          command: mvn clean test -PNewDriverRequestDtoValidationTest
+          timeout: 10
+          max-score: 1
+      - name: PassengerDtoValidationTest
+        id: passengerdtovalidationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: PassengerDtoValidationTest
+          setup-command: mvn compile
+          command: mvn clean test -PPassengerDtoValidationTest
+          timeout: 10
+          max-score: 1
+      - name: PassengerLocationDtoValidationTest
+        id: passengerlocationdtovalidationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: PassengerLocationDtoValidationTest
+          setup-command: mvn compile
+          command: mvn clean test -PPassengerLocationDtoValidationTest
+          timeout: 10
+          max-score: 1
+      - name: NewReviewRequestDtoValidationTest
+        id: newreviewrequestdtovalidationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: RideControllerIntegrationTest
+          setup-command: mvn compile
+          command: mvn clean test -PNewReviewRequestDtoValidationTest
+          timeout: 10
+          max-score: 1
+      - name: RideRequestDtoValidationTest
+        id: riderequestdtovalidationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: RideRequestDtoValidationTest
+          setup-command: mvn compile
+          command: mvn clean test -PRideRequestDtoValidationTest
+          timeout: 10
+          max-score: 1
+      - name: RidesByUserDtoValidationTest
+        id: ridesbyuserdtovalidationtest
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: RidesByUserDtoValidationTest
+          setup-command: mvn compile
+          command: mvn clean test -PRidesByUserDtoValidationTest
+          timeout: 10
+          max-score: 1
+
+      - name: Autograding Reporter
+        uses: education/autograding-grading-reporter@v1
+        env:
+          DRIVERCONTROLLERINTEGRATIONTEST_RESULTS: "${{steps.drivercontrollerintegrationtest.outputs.result}}"
+          PASSENGERCONTROLLERINTEGRATIONTEST_RESULTS: "${{steps.passengercontrollerintegrationtest.outputs.result}}"
+          REVIEWCONTROLLERINTEGRATIONTEST_RESULTS: "${{steps.reviewcontrollerintegrationtest.outputs.result}}"
+          RIDECONTROLLERINTEGRATIONTEST_RESULTS: "${{steps.ridecontrollerintegrationtest.outputs.result}}"
+          DRIVERDTOVALIDATIONTEST_RESULTS: "${{steps.driverdtovalidationtest.outputs.result}}"
+          NEWDRIVERREQUESTDTOVALIDATIONTEST_RESULTS: "${{steps.newdriverrequestdtovalidationtest.outputs.result}}"
+          PASSENGERDTOVALIDATIONTEST_RESULTS: "${{steps.passengerdtovalidationtest.outputs.result}}"
+          PASSENGERLOCATIONDTOVALIDATIONTEST_RESULTS: "${{steps.passengerlocationdtovalidationtest.outputs.result}}"
+          NEWREVIEWREQUESTDTOVALIDATIONTEST_RESULTS: "${{steps.newreviewrequestdtovalidationtest.outputs.result}}"
+          RIDEREQUESTDTOVALIDATIONTEST_RESULTS: "${{steps.riderequestdtovalidationtest.outputs.result}}"
+          RIDESBYUSERDTOVALIDATIONTEST_RESULTS: "${{steps.ridesbyuserdtovalidationtest.outputs.result}}"
+        with:
+          runners: drivercontrollerintegrationtest,passengercontrollerintegrationtest,reviewcontrollerintegrationtest,ridecontrollerintegrationtest, driverdtovalidationtest,newdriverrequestdtovalidationtest,passengerdtovalidationtest,passengerlocationdtovalidationtest,newreviewrequestdtovalidationtest,riderequestdtovalidationtest,ridesbyuserdtovalidationtest
